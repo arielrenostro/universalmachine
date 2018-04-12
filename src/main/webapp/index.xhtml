@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+	  	        xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui"
+			    xmlns:pe="http://primefaces.org/ui/extensions"
+			    template="/templates/template.xhtml">
+			    
+	<f:param name="titulo" value="Máquina universal"/>
+	
+	<ui:define name="form">
+		<p:remoteCommand name="atualizarEstado" value="#{maquinaUniversalView.atualizarEstado()}" update="pnlEstado registradores mensagens"/>
+		<p:panelGrid id="pnlEstado">
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Quantidade de instruções executadas"/>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="Status"/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="#{maquinaUniversalView.contexto.qntInstrucoesExecutadas}"/>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{maquinaUniversalView.contexto.status}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<p:dataTable id="registradores" value="#{maquinaUniversalView.contexto.registradores.values()}" var="registrador">
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{registrador.nome}"/>
+			</p:column>
+			<p:column headerText="Valor">
+				<p:outputLabel value="#{registrador.dado}"/>
+			</p:column>
+		</p:dataTable>
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:inputTextarea value="#{maquinaUniversalView.codigo}" cols="200" rows="20" id="codigo" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:commandButton value="Executar" actionListener="#{maquinaUniversalView.executar()}" update="@form" process="codigo @this"/>
+					<p:commandButton value="Atualizar" actionListener="#{maquinaUniversalView.atualizarEstado()}" update="pnlEstado mensagens registradores" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</ui:define>
+	
+</ui:composition>
