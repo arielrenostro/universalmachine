@@ -112,7 +112,11 @@ public class Interpretador {
 			}
 
 			TipoOperador tipoOperador = getTipoOperadorInstrucao(instrucao);
-
+			
+			if (null == tipoOperador) {
+				throw new ErroSintaxeException(idxLinha);
+			}
+			
 			switch (tipoOperador) {
 				case ATRIBUICAO:
 					validarAtribuicao(instrucao);
@@ -651,7 +655,7 @@ public class Interpretador {
 			}
 
 			if (!nomeRegistrador.isEmpty()) {
-				if (!isNomeRegistradorValido(nomeRegistrador) || (!instrucao.equals(nomeRegistrador) && ' ' != instrucao.charAt(instrucao.length() - (nomeRegistrador.length() + 1)))) {
+				if (!isNomeRegistradorValido(nomeRegistrador)) { //|| (!instrucao.equals(nomeRegistrador) && ' ' != instrucao.charAt(instrucao.length() - (nomeRegistrador.length() + 1)))) {
 					nomeRegistrador = "";
 					continue;
 				}

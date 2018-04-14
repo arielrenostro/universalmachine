@@ -1,0 +1,47 @@
+.negrito {
+	font-weight: bold;
+}
+
+ul {
+	padding-left: 5px; 
+	margin-top: 10px;
+}
+
+ul>li {
+	margin-top: 10px;
+}
+
+.caixaTexto {
+	white-space: pre;
+	padding-top: 5px;
+    padding-bottom: 20px;
+}
+
+pre {
+	margin-top: -25px;
+    margin-bottom: -25px;
+}
+
+button.ui-button {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.larguraMaxima {
+	width: 100% !important;
+}
+
+tr td {
+	border-style: hidden !important;
+}
+
+div.tabela>div>table>tbody>tr>td,
+div.tabela>div>table>tbody>tr,
+table.tabela>tbody>tr>td,
+table.tabela>tbody>tr {
+	border-style: solid !important;
+}
+
+.tabela {
+	
+}

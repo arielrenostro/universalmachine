@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.log4j.Logger;
 
 import com.ariel.universalmachine.model.Registrador;
 import com.ariel.universalmachine.model.contexto.ContextoExecucao;
@@ -16,10 +19,23 @@ import com.ariel.universalmachine.util.Util;
 
 public class Executador {
 
-	private static Map<String, ContextoExecucao> execucoes = new HashMap<>();
-	private static ExecutorService executor = Executors.newFixedThreadPool(5);
-	private static RegistradorController registradorController = new RegistradorController();
-
+	private static final Logger LOGGER = Logger.getLogger(Executador.class);
+	private static final Map<String, ContextoExecucao> execucoes = new HashMap<>();
+	private static final RegistradorController registradorController = new RegistradorController();
+	private static ExecutorService executor;
+	
+	private static ExecutorService getExecutor() {
+		if (null == executor) {
+			executor = Executors.newFixedThreadPool(5);
+			try {
+				executor.awaitTermination(2, TimeUnit.MINUTES);
+			} catch (InterruptedException e) {
+				LOGGER.error(e.getMessage(), e);
+			}
+		}
+		return executor;
+	}
+	
 	public synchronized static ContextoExecucao getExecucao(String chave) {
 		return execucoes.get(chave);
 	}
@@ -30,7 +46,7 @@ public class Executador {
 
 	public static String executar(ContextoExecucao contexto) {
 		String identificador = UUID.randomUUID().toString();
-		executor.submit(new Runnable() {
+		getExecutor().submit(new Runnable() {
 
 			@Override
 			public void run() {

@@ -1,0 +1,98 @@
+<p:dialog 	id="dlgInstrucoes"
+			widgetVar="dlgInstrucoes"
+			modal="true"
+			header="Instruções"
+			
+			xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+  	        xmlns:ui="http://java.sun.com/jsf/facelets"
+		    xmlns:p="http://primefaces.org/ui"
+		    xmlns:pe="http://primefaces.org/ui/extensions">
+		    
+		    <ul>
+				<li>
+					<p:outputLabel value="Instruções" styleClass="negrito" />
+					<ol>
+						<li>
+							<p:outputLabel value="SE: condicional, obrigatório informar o SENAO, somente comparação com 0;"/>
+						</li>
+						<li>
+							<p:outputLabel value="SENAO: indica o bloco de instruções caso o SE sejá falso;"/>
+						</li>
+						<li>
+							<p:outputLabel value="ENTAO: indica o fim da instrução SE;"/>
+						</li>
+						<li>
+							<p:outputLabel value="ENQUANTO: condicional, utilizado em laços de repetição, somente comparação com 0;"/>
+						</li>
+						<li>
+							<p:outputLabel value="ATE: condicional, utilizado em laços de repetição, somente comparação com 0;"/>
+						</li>
+						<li>
+							<p:outputLabel value="FACA: indica o final das instruções ENQUANTO e ATE;"/>
+						</li>
+					</ol>
+				</li>
+				<li>
+					<p:outputLabel value="Atribuidor e comparador" styleClass="negrito" />
+					<ol>
+						<li>
+							<p:outputLabel value=":="/>
+						</li>
+						<li>
+							<p:outputLabel value="="/>
+						</li>
+					</ol>
+				</li>
+				<li>
+					<p:outputLabel value="Registradores" styleClass="negrito" />
+					<ol>
+						<li>
+							<p:outputLabel value="Deve iniciar com letra maiúscula;" />
+						</li>
+						<li>
+							<p:outputLabel value="Deve ser composto somente de letras maiúsculas, underline (_) e números." />
+						</li>
+					</ol>
+				</li>
+				<li>
+					<p:outputLabel value="Macros" styleClass="negrito" />
+					<ol>
+						<li>
+							<p:outputLabel value="Deve ser atribuida a um registrador (Exemplo: A := macro {...})" />
+						</li>
+						<li>
+							<p:outputLabel value="Deve iniciar com letra minúscula, a não ser que inicie com um registrador. (Exemplo: A := A * B {...} | A := multiplicacao(A,B) {...})" />
+						</li>
+						<li>
+							<p:outputLabel value="Deve conter um bloco de instruções (abre e fecha chaves)" />
+						</li>
+					</ol>
+				</li>
+				<li>
+					<p:outputLabel value="Exemplos de fonte" styleClass="negrito" />
+					<ol>
+						<li>
+							<p:panel styleClass="caixaTexto"><label>REGISTRADOR := 0 {</label>
+<label>	ATE REGISTRADOR = 0 FACA {</label>
+<label>		REGISTRADOR := REGISTRADOR - 1;</label>
+<label>	}</label>
+<label>}</label>
+<label></label>
+<label>A := 0;</label>
+<label>A := A + 1;</label>
+<label>SE A = 0 ENTAO {</label>
+<label>	B := 0;</label>
+<label>} SENAO {</label>
+<label>	C := 0;</label>
+<label>}</label>
+							</p:panel>
+						</li>
+					</ol>
+				</li>
+			</ul>
+			
+			<p:commandButton value="Fechar" onclick="PF('dlgInstrucoes').hide();"/>
+
+</p:dialog>
