@@ -418,7 +418,7 @@ public class Interpretador {
 		if (null != entryRegistradorAnterior) {
 			return assinatura.getParametros().get(entryRegistradorAnterior.getKey());
 		}
-		return null;
+		return instrucaoMacro.getNomeRegistrador();
 	}
 
 	private void declararMacroNova(Assinatura assinatura) throws ErroSintaxeException, Exception {

@@ -1,8 +1,12 @@
 package com.ariel.universalmachine.controller;
 
+import java.util.Random;
+
 import com.ariel.universalmachine.model.Registrador;
 
 public class RegistradorController {
+	
+	private Random random = new Random();
 
 	public Registrador novo(String nome) {
 		Registrador registrador = new Registrador();
@@ -12,11 +16,11 @@ public class RegistradorController {
 	}
 
 	private int getValorInicial() {
-		int random = Double.valueOf(Math.random()).intValue();
-		if (0 > random) {
-			random *= -1;
+		int valor = random.nextInt(100);
+		if (0 > valor) {
+			valor *= -1;
 		}
-		return random;
+		return valor;
 	}
 
 	public void somar(Registrador registrador) {

@@ -2,6 +2,9 @@
 			widgetVar="dlgInstrucoes"
 			modal="true"
 			header="Instruções"
+			closeOnEscape="true"
+			responsive="true"
+			height="600px"
 			
 			xmlns="http://www.w3.org/1999/xhtml"
 		    xmlns:h="http://java.sun.com/jsf/html"
@@ -9,7 +12,6 @@
   	        xmlns:ui="http://java.sun.com/jsf/facelets"
 		    xmlns:p="http://primefaces.org/ui"
 		    xmlns:pe="http://primefaces.org/ui/extensions">
-		    
 		    <ul>
 				<li>
 					<p:outputLabel value="Instruções" styleClass="negrito" />
@@ -71,6 +73,14 @@
 					</ol>
 				</li>
 				<li>
+					<p:outputLabel value="Outras informações" styleClass="negrito" />
+					<ol>
+						<li>
+							<p:outputLabel value="O contexto dos registradores é global, portanto lembre-se sempre de limpa-los ao iniciar uma macro" />
+						</li>
+					</ol>
+				</li>
+				<li>
 					<p:outputLabel value="Exemplos de fonte" styleClass="negrito" />
 					<ol>
 						<li>
@@ -94,5 +104,4 @@
 			</ul>
 			
 			<p:commandButton value="Fechar" onclick="PF('dlgInstrucoes').hide();"/>
-
 </p:dialog>

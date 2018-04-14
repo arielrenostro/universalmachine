@@ -53,8 +53,17 @@
 				</p:column>
 			</p:row>
 			<p:row>
+				<p:column colspan="2">
+					<p:outputLabel value="Registradores" styleClass="negrito"/>
+				</p:column>
+			</p:row>
+			<p:row>
 				<p:column>
-					<p:dataTable id="registradores" value="#{maquinaUniversalView.contexto.registradores.values()}" var="registrador" styleClass="tabela">
+					<p:dataTable id="registradores" 
+								 value="#{maquinaUniversalView.contexto.registradores.values()}" 
+								 var="registrador" 
+								 styleClass="tabela"
+								 emptyMessage="Nenhum registrador declarado">
 						<p:column headerText="Nome">
 							<p:outputLabel value="#{registrador.nome}"/>
 						</p:column>
@@ -62,6 +71,11 @@
 							<p:outputLabel value="#{registrador.dado}"/>
 						</p:column>
 					</p:dataTable>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="2">
+					<p:outputLabel value="Código" styleClass="negrito"/>
 				</p:column>
 			</p:row>
 			<p:row>
