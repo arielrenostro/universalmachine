@@ -95,3 +95,6 @@ textarea {
   src: url('../font/DroidSansMono.ttf');
 }
 
+blockquote>b {
+	color: #da6363;
+}

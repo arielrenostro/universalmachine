@@ -34,17 +34,17 @@
 		    	<div class="row">
 		    		<h5>Instruções</h5>
 		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
-		    			SE: condicional, obrigatório informar o SENAO, somente comparação com 0;
+		    			<b>SE</b>: condicional, obrigatório informar o <b>SENAO</b>, somente comparação com 0;
 		    			<br />
-		    			ENTAO: indica o fim da instrução SE;
+		    			<b>ENTAO</b>: indica o fim da instrução <b>SE</b>;
 		    			<br />
-		    			SENAO: indica o bloco de instruções caso o SE sejá falso;
+		    			<b>SENAO</b>: indica o bloco de instruções caso o <b>SE</b> seja falso;
 		    			<br />
-		    			ENQUANTO: condicional, utilizado em laços de repetição, somente comparação com 0;
+		    			<b>ENQUANTO</b>: condicional, utilizado em laços de repetição, somente comparação com 0;
 		    			<br />
-		    			ATE: condicional, utilizado em laços de repetição, somente comparação com 0;
+		    			<b>ATE</b>: condicional, utilizado em laços de repetição, somente comparação com 0;
 		    			<br />
-		    			FACA: indica o final das instruções ENQUANTO e ATE;
+		    			<b>FACA</b>: indica o final das instruções <b>ENQUANTO</b> e <b>ATE</b>;
 		    		</blockquote>
 		    		
 		    		<h5>Atribuidor e comparador</h5>
@@ -76,20 +76,91 @@
 		    		</blockquote>
 		    		
 		    		<h5>Exemplos de fonte</h5>
-		    		<blockquote style="white-space: pre; margin-top: 10px; margin-bottom: 30px;"><label>REGISTRADOR := 0 {</label>
-<label>	ATE REGISTRADOR = 0 FACA {</label>
-<label>		REGISTRADOR := REGISTRADOR - 1;</label>
-<label>	}</label>
+		    		<blockquote style="white-space: pre; margin-top: 10px; margin-bottom: 30px; font-family: 'DroidSansMono';"><label>REGISTRADOR := 0 {</label>
+<label>  ATE REGISTRADOR = 0 FACA {</label>
+<label>    REGISTRADOR := REGISTRADOR - 1;</label>
+<label>  }</label>
 <label>}</label>
 <label></label>
 <label>A := 0;</label>
 <label>A := A + 1;</label>
 <label>SE A = 0 ENTAO {</label>
-<label>	B := 0;</label>
+<label>  B := 0;</label>
 <label>} SENAO {</label>
-<label>	C := 0;</label>
+<label>  C := 0;</label>
+<label>}</label></blockquote>
+		    		
+		    		<h5>Fibonacci</h5>
+		    		<blockquote style="white-space: pre; margin-top: 10px; margin-bottom: 30px; font-family: 'DroidSansMono';"><label>A := 0 {</label>
+<label>  ATE A = 0 FACA {</label>
+<label>    A := A - 1;</label>
+<label>  }</label>
 <label>}</label>
-		    		</blockquote>
+<label></label>
+<label>A := A + B {</label>
+<label>  UTILITARIO := 0;</label>
+<label></label>
+<label>  ATE B = 0 FACA {</label>
+<label>    UTILITARIO := UTILITARIO + 1;</label>
+<label>    A := A + 1;</label>
+<label>    B := B - 1;</label>
+<label>  }</label>
+<label></label>
+<label>  ATE UTILITARIO = 0 FACA {</label>
+<label>    B := B + 1;</label>
+<label>    UTILITARIO := UTILITARIO - 1;</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := B {</label>
+<label>  UTILITARIO3 := 0;</label>
+<label>  A := 0;</label>
+<label></label>
+<label>  ATE B = 0 FACA {</label>
+<label>    UTILITARIO3 := UTILITARIO3 + 1;</label>
+<label>    A := A + 1;</label>
+<label>    B := B - 1;</label>
+<label>  }</label>
+<label></label>
+<label>  ATE UTILITARIO3 = 0 FACA {</label>
+<label>    B := B + 1;</label>
+<label>    UTILITARIO3 := UTILITARIO3 - 1;</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := A * B {</label>
+<label>  SE A = 0 ENTAO {</label>
+<label>  } SENAO {</label>
+<label>    SE B = 0 ENTAO {</label>
+<label>      A := 0;</label>
+<label>    } SENAO {</label>
+<label>      UTILITARIO2 := A;</label>
+<label>      UTILITARIO4 := B;</label>
+<label>      B := B - 1;</label>
+<label></label>
+<label>      ATE B = 0 FACA {</label>
+<label>        A := A + UTILITARIO2;</label>
+<label>        B := B - 1;</label>
+<label>      }</label>
+<label></label>
+<label>      B := UTILITARIO4;</label>
+<label>    }</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := A ! {</label>
+<label></label>
+<label>  SE A = 0 ENTAO {</label>
+<label>    A := A + 1;</label>
+<label>  } SENAO {</label>
+<label>    UTILITARIO5 := A;</label>
+<label>    UTILITARIO5 := UTILITARIO5 - 1;</label>
+<label>    ATE UTILITARIO5 = 0 FACA {</label>
+<label>      A := A * UTILITARIO5;</label>
+<label>      UTILITARIO5 := UTILITARIO5 - 1;</label>
+<label>    }</label>
+<label>  }</label>
+<label>}</label></blockquote>
 		    	</div>
 	    	</div>
 </p:dialog>

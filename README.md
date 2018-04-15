@@ -1,2 +1,2 @@
 # universalmachine
-MÃ¡quina universal - Teorema de norman
+Máquina universal - Teorema de norma

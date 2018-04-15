@@ -9,6 +9,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ariel.universalmachine.exception.ErroAtribuicaoEsperadoException;
+import com.ariel.universalmachine.exception.ErroAtribuicaoFimEsperadoException;
+import com.ariel.universalmachine.exception.ErroAtribuicaoNumeroUmEsperadoException;
+import com.ariel.universalmachine.exception.ErroAtribuicaoOperadorAritmeticoEsperadoException;
+import com.ariel.universalmachine.exception.ErroAtribuicaoRegistradorIgualEsperadoException;
+import com.ariel.universalmachine.exception.ErroComparacaoInvalidaException;
 import com.ariel.universalmachine.exception.ErroDecodificarInstrucaoException;
 import com.ariel.universalmachine.exception.ErroInternoProcessamentoMacroException;
 import com.ariel.universalmachine.exception.ErroMacroNaoDeclarada;
@@ -144,7 +150,7 @@ public class Interpretador {
 	private void processarComparacao(String instrucao) throws Exception {
 		TipoTeste tipoTeste = getTipoTesteLinha(instrucao);
 		if (null == tipoTeste) {
-			throw new ErroSintaxeException(instrucao, idxLinha);
+			throw new ErroComparacaoInvalidaException(instrucao, idxLinha);
 		}
 		String registrador = getPrimeiroNomeRegistrador(instrucao.substring(tipoTeste.name().length() + 1));
 
@@ -318,7 +324,7 @@ public class Interpretador {
 			if (instrucao.endsWith("{")) {
 				declararMacroNova(assinatura);
 			} else {
-				throw new ErroMacroNaoDeclarada(idxLinha);
+				throw new ErroMacroNaoDeclarada(idxLinha, instrucao);
 			}
 		} else {
 			processarMacro(macroAssinatura, assinatura);
@@ -484,7 +490,7 @@ public class Interpretador {
 					if (nomeRegistrador == null) {
 						nomeRegistrador = str;
 					} else if (!nomeRegistrador.equals(str)) {
-						throw new ErroSintaxeException(instrucao, idxLinha);
+						throw new ErroAtribuicaoRegistradorIgualEsperadoException(instrucao, idxLinha);
 					}
 				} else {
 					throw new ErroSintaxeException(instrucao, idxLinha);
@@ -507,7 +513,7 @@ public class Interpretador {
 				str = str.trim();
 
 				if (!TipoOperador.ATRIBUICAO.getCode().equals(str)) {
-					throw new ErroSintaxeException(instrucao, idxLinha);
+					throw new ErroAtribuicaoEsperadoException(instrucao, idxLinha);
 				}
 
 				esperandoOperador = false;
@@ -526,7 +532,7 @@ public class Interpretador {
 				} else if (TipoOperadorAritmetico.SUBTRAIR.getCode().equals(str)) {
 					tipoOperadorAritmetico = TipoOperadorAritmetico.SUBTRAIR;
 				} else {
-					throw new ErroSintaxeException(instrucao, idxLinha);
+					throw new ErroAtribuicaoOperadorAritmeticoEsperadoException(instrucao, idxLinha);
 				}
 
 				esperandoOperadorArtimetico = false;
@@ -541,7 +547,7 @@ public class Interpretador {
 				str = str.trim();
 
 				if (!"1".equals(str)) {
-					throw new ErroSintaxeException(instrucao, idxLinha);
+					throw new ErroAtribuicaoNumeroUmEsperadoException(instrucao, idxLinha);
 				}
 
 				esperandoUm = false;
@@ -556,7 +562,7 @@ public class Interpretador {
 				str = str.trim();
 
 				if (!str.endsWith(";") && !str.isEmpty()) {
-					throw new ErroSintaxeException(instrucao, idxLinha);
+					throw new ErroAtribuicaoFimEsperadoException(instrucao, idxLinha);
 				}
 			}
 

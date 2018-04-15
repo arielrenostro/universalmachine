@@ -72,7 +72,7 @@
 		<ui:include src="dlgResultado.xhtml" />
 			
 		<h4>Código</h4>
-		<p:inputTextarea value="#{maquinaUniversalView.codigo}" rows="30" cols="150" id="codigo" style="font-family: 'DroidSansMono';"/>
+		<p:inputTextarea value="#{maquinaUniversalView.codigo}" rows="30" cols="150" id="codigo" style="font-family: 'DroidSansMono';" onkeypress="return adicionarEspacosNovaLinha(event);"/>
 	</ui:define>
 	
 </ui:composition>
