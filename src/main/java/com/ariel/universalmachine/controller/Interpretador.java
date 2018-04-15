@@ -33,6 +33,7 @@ public class Interpretador {
 	private static TipoTeste[] tiposTeste = TipoTeste.values();
 	private static Pattern pNomeRegistrador = Pattern.compile("^([A-Z])(([A-Z_0-9]+)|)$"); // Inicia com A-Z e depois pode conter somente A-Z _ 0-9 ou nada
 	private static Pattern pNomeRegistradorUmChar = Pattern.compile("[A-Z_0-9]+");
+	private static Pattern pQuebraLinha = Pattern.compile("\n");
 
 	private String codigo;
 	private int idx = 0;
@@ -48,9 +49,19 @@ public class Interpretador {
 		this.codigo = codigo;
 	}
 
-	public Interpretador(String codigo, List<MacroAssinatura> macrosAssinatura) {
+	public Interpretador(String codigo, List<MacroAssinatura> macrosAssinatura, int idxLinha) {
 		this(codigo);
 		this.macrosAssinatura = macrosAssinatura;
+		this.idxLinha = idxLinha - getQuantidadeQuebraLinhas(codigo);
+	}
+
+	private int getQuantidadeQuebraLinhas(String codigo) {
+		Matcher matcher = pQuebraLinha.matcher(codigo);
+		int qntQuebraLinha = 1;
+		while (matcher.find()) {
+			qntQuebraLinha++;
+		}
+		return qntQuebraLinha;
 	}
 
 	public List<Instrucao> interpretar() throws Exception {
@@ -112,11 +123,11 @@ public class Interpretador {
 			}
 
 			TipoOperador tipoOperador = getTipoOperadorInstrucao(instrucao);
-			
+
 			if (null == tipoOperador) {
-				throw new ErroSintaxeException(idxLinha);
+				throw new ErroSintaxeException(instrucao, idxLinha);
 			}
-			
+
 			switch (tipoOperador) {
 				case ATRIBUICAO:
 					validarAtribuicao(instrucao);
@@ -125,7 +136,7 @@ public class Interpretador {
 					processarComparacao(instrucao);
 					break;
 				default:
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 			}
 		}
 	}
@@ -133,7 +144,7 @@ public class Interpretador {
 	private void processarComparacao(String instrucao) throws Exception {
 		TipoTeste tipoTeste = getTipoTesteLinha(instrucao);
 		if (null == tipoTeste) {
-			throw new ErroSintaxeException(idxLinha);
+			throw new ErroSintaxeException(instrucao, idxLinha);
 		}
 		String registrador = getPrimeiroNomeRegistrador(instrucao.substring(tipoTeste.name().length() + 1));
 
@@ -189,7 +200,7 @@ public class Interpretador {
 				instrucoes.add(senao);
 				instrucoes.addAll(instrucoesSenao);
 			} else {
-				throw new ErroSintaxeException(idxLinha);
+				throw new ErroSintaxeException(instrucao, idxLinha);
 			}
 		}
 
@@ -213,13 +224,13 @@ public class Interpretador {
 					esperandoZero = true;
 					esperandoComparacao = false;
 				} else if (' ' != charLeitura) {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 			} else if (esperandoZero) {
 				if ('0' == charLeitura) {
 					esperandoZero = false;
 				} else if (' ' != charLeitura) {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 			} else {
 				str += charLeitura;
@@ -230,7 +241,7 @@ public class Interpretador {
 		}
 
 		if (idxInstrucao == instrucao.length() - 1) {
-			throw new ErroSintaxeException(idxLinha);
+			throw new ErroSintaxeException(instrucao, idxLinha);
 		}
 	}
 
@@ -253,7 +264,7 @@ public class Interpretador {
 				return str;
 			}
 		}
-		throw new ErroSintaxeException(idxLinha);
+		throw new ErroSintaxeException(instrucao, idxLinha);
 	}
 
 	private List<Instrucao> processarBlocoInstrucao() throws ErroSintaxeException, Exception {
@@ -261,10 +272,10 @@ public class Interpretador {
 		String proximaInstrucao = getProximaInstrucao();
 		if (proximaInstrucao.endsWith("{")) {
 			String blocoInstrucoes = getBlocoInstrucoes(proximaInstrucao);
-			Interpretador interpretador = new Interpretador(blocoInstrucoes, macrosAssinatura);
+			Interpretador interpretador = new Interpretador(blocoInstrucoes, macrosAssinatura, idxLinha);
 			instrucoesComparacao = interpretador.interpretar();
 		} else {
-			Interpretador interpretador = new Interpretador(proximaInstrucao, macrosAssinatura);
+			Interpretador interpretador = new Interpretador(proximaInstrucao, macrosAssinatura, idxLinha);
 			instrucoesComparacao = interpretador.interpretar();
 		}
 
@@ -285,7 +296,7 @@ public class Interpretador {
 		str = str.trim();
 
 		if (qntAbreChaves != qntFechaChaves) {
-			throw new ErroSintaxeException(idxLinha);
+			throw new ErroSintaxeException(instrucao, idxLinha);
 		}
 
 		return str.substring(1, str.length() - 1);
@@ -423,7 +434,7 @@ public class Interpretador {
 
 	private void declararMacroNova(Assinatura assinatura) throws ErroSintaxeException, Exception {
 		String blocoInstrucoes = getBlocoInstrucoes("{");
-		Interpretador interpretador = new Interpretador(blocoInstrucoes, macrosAssinatura);
+		Interpretador interpretador = new Interpretador(blocoInstrucoes, macrosAssinatura, idxLinha);
 		List<Instrucao> instrucoesMacro = interpretador.interpretar();
 
 		MacroAssinatura macroAssinatura = new MacroAssinatura();
@@ -473,10 +484,10 @@ public class Interpretador {
 					if (nomeRegistrador == null) {
 						nomeRegistrador = str;
 					} else if (!nomeRegistrador.equals(str)) {
-						throw new ErroSintaxeException(idxLinha);
+						throw new ErroSintaxeException(instrucao, idxLinha);
 					}
 				} else {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 
 				if (esperandoNomeRegistrador) {
@@ -496,7 +507,7 @@ public class Interpretador {
 				str = str.trim();
 
 				if (!TipoOperador.ATRIBUICAO.getCode().equals(str)) {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 
 				esperandoOperador = false;
@@ -515,7 +526,7 @@ public class Interpretador {
 				} else if (TipoOperadorAritmetico.SUBTRAIR.getCode().equals(str)) {
 					tipoOperadorAritmetico = TipoOperadorAritmetico.SUBTRAIR;
 				} else {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 
 				esperandoOperadorArtimetico = false;
@@ -530,7 +541,7 @@ public class Interpretador {
 				str = str.trim();
 
 				if (!"1".equals(str)) {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 
 				esperandoUm = false;
@@ -545,7 +556,7 @@ public class Interpretador {
 				str = str.trim();
 
 				if (!str.endsWith(";") && !str.isEmpty()) {
-					throw new ErroSintaxeException(idxLinha);
+					throw new ErroSintaxeException(instrucao, idxLinha);
 				}
 			}
 
@@ -553,7 +564,7 @@ public class Interpretador {
 		}
 
 		if (!fim || null == nomeRegistrador || null == tipoOperadorAritmetico) {
-			throw  new ErroSintaxeException(idxLinha);
+			throw  new ErroSintaxeException(instrucao, idxLinha);
 		}
 
 		OperadorRegistrador operador = new OperadorRegistrador();
@@ -632,7 +643,7 @@ public class Interpretador {
 
 		int idxAtribuicao = instrucao.indexOf(TipoOperador.ATRIBUICAO.getCode());
 		if (!nomeRegistrador.equals(instrucao.substring(0, idxAtribuicao).trim())) {
-			throw new ErroSintaxeException(idxLinha);
+			throw new ErroSintaxeException(instrucao, idxLinha);
 		}
 
 		instrucao = instrucao.substring(idxAtribuicao + TipoOperador.ATRIBUICAO.getCode().length()).trim();

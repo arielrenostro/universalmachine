@@ -35,9 +35,13 @@
 			    <div class="container" style="width: 100%;">
 			    	<div class="container" style="width: 95%; height: 670px;">
 				    	<div class="row">
-				    		<div class="col" style="padding-right: 100px;">
+				    		<div class="col" style="padding-right: 50px;">
 					    		<h5>Status de execução</h5>
 					    		<p id="statusExecucao">#{maquinaUniversalView.contexto.status.code}</p>
+				    		</div>
+				    		<div class="col" style="padding-right: 50px;">
+					    		<h5>Instruções</h5>
+					    		<p id="statusExecucao">#{maquinaUniversalView.contexto.instrucoes.size()}</p>
 				    		</div>
 				    		<div class="col">
 					    		<h5>Instruções executadas</h5>
@@ -68,6 +72,5 @@
 				    	</div>
 			    	</div>
 			    </div>
-		    
 		    </p:panel>
 </p:dialog>

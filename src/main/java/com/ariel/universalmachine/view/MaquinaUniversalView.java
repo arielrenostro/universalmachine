@@ -28,7 +28,7 @@ public class MaquinaUniversalView implements Serializable {
 	public void executar() {
 		try {
 			idExecucao = controller.executar(contexto, codigo);
-			addInfoMessage("Execução enviada");
+			addInfoMessage("Execução enviada! Clique em \"Resultado\" para visualizar a execução");
 		} catch (Exception e) {
 			addErrorMessage(e);
 		}
