@@ -31,10 +31,6 @@ button.ui-button {
 	width: 100% !important;
 }
 
-tr td {
-	border-style: hidden !important;
-}
-
 div.tabela>div>table>tbody>tr>td,
 div.tabela>div>table>tbody>tr,
 table.tabela>tbody>tr>td,
@@ -42,6 +38,54 @@ table.tabela>tbody>tr {
 	border-style: solid !important;
 }
 
-.tabela {
-	
+.dialog85 {
+	left: 10% !important; 
+	width: 80% !important;
+	top: 5% !important;
+	height: 90% !important;
+}
+
+div.dialog85>div,
+div.dialog85>div>div,
+div.dialog85>div>div>div {
+	padding: 0px !important;
+	height: 100% !important;
+}
+
+a.botaoFecharDialog {
+	float: right;
+    height: 30px;
+    width: 30px;
+    padding-left: 0px;
+}
+
+a.botaoFecharDialog>i {
+	height: 30px; 
+	width: 30px;
+	line-height: 30px; 
+}
+
+.direita {
+	text-align: right;
+}
+
+blockquote {
+	border-left: 5px solid #4db6ac;
+}
+
+div.ui-messages-info>span {
+	display: none;
+}
+
+div.ui-messages-info>ul {
+	margin-left: 10px;
+}
+
+div.ui-messages-info>ul>li {
+	margin-top: 0px !important;
+}
+
+span.ui-messages-info-summary {
+	margin-right: 10px !important;
+	margin-left: 0px !important;
 }

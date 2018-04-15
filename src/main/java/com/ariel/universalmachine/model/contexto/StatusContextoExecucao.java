@@ -8,6 +8,18 @@ package com.ariel.universalmachine.model.contexto;
  */
 public enum StatusContextoExecucao  {
 
-	NAO_INICIADO, RODANDO, FINALIZADO;
+	NAO_INICIADO("Não iniciado"), //
+	RODANDO("Rodando"), //
+	FINALIZADO("Finalizado");
+	
+	private String code;
+	
+	StatusContextoExecucao(final String code) {
+		this.code = code;
+	}
+	
+	public String getCode() {
+		return code;
+	}
 
 }

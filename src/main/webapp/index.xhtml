@@ -6,84 +6,46 @@
 			    xmlns:pe="http://primefaces.org/ui/extensions"
 			    template="/templates/template.xhtml">
 			    
-	<f:param name="titulo" value="Máquina universal"/>
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(){
+		    	$('.sidenav').sidenav();
+		  	});
+		</script>
+		<script type="text/javascript" src="js/universalmachine.js" />
+		<header>
+			<ul id="nav-mobile" class="sidenav sidenav-fixed" style="transform: translateX(0px); width: 210px;">
+				<li class="bold">
+					<a href="#" class="waves-effect waves-teal" onclick="resetar(); executar();">
+						<i class="small material-icons">play_circle_outline</i>
+						Executar
+					</a>
+				</li>
+				<li class="bold">
+					<a href="#" class="waves-effect waves-teal" onclick="PF('dlgResultado').show(); atualizarEstado();">
+						<i class="small material-icons">check</i>
+						Resultado
+					</a>
+				</li>
+				<li class="bold">
+					<a href="#" class="waves-effect waves-teal" onclick="PF('dlgAjuda').show();">
+						<i class="small material-icons">help_outline</i>
+						Ajuda
+					</a>
+				</li>
+			</ul>
+		</header>
+	</ui:define>
 	
 	<ui:define name="form">
-		<p:remoteCommand name="atualizarEstado" value="#{maquinaUniversalView.atualizarEstado()}" update="pnlEstado registradores mensagens"/>
+		<p:remoteCommand name="atualizarEstado" actionListener="#{maquinaUniversalView.atualizarEstado()}" update="pnlResultado mensagens"/>
+		<p:remoteCommand name="executar" actionListener="#{maquinaUniversalView.executar()}" update="@form" process="@this codigo"/>
 		
-		<ui:include src="dlgInstrucoes.xhtml" />
-		<p:panelGrid id="botoes" styleClass="larguraMaxima">
-			<p:row>
-				<p:column>
-					<p:outputLabel value="Ações" styleClass="negrito" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:commandButton value="Executar" actionListener="#{maquinaUniversalView.executar()}" update="@form" process="codigo @this"/>
-					<p:commandButton value="Atualizar" actionListener="#{maquinaUniversalView.atualizarEstado()}" update="pnlEstado mensagens registradores" />
-					<p:commandButton value="Instruções" onclick="PF('dlgInstrucoes').show();" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column colspan="2">
-					<p:outputLabel value="Status da execução" styleClass="negrito" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:panelGrid id="pnlEstado" styleClass="larguraMaxima tabela">
-						<p:row>
-							<p:column>
-								<p:outputLabel value="Quantidade de instruções executadas"/>
-							</p:column>
-							<p:column>
-								<p:outputLabel value="Status"/>
-							</p:column>
-						</p:row>
-						<p:row>
-							<p:column>
-								<p:outputLabel value="#{maquinaUniversalView.contexto.qntInstrucoesExecutadas}"/>
-							</p:column>
-							<p:column>
-								<p:outputLabel value="#{maquinaUniversalView.contexto.status}" />
-							</p:column>
-						</p:row>
-					</p:panelGrid>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column colspan="2">
-					<p:outputLabel value="Registradores" styleClass="negrito"/>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:dataTable id="registradores" 
-								 value="#{maquinaUniversalView.contexto.registradores.values()}" 
-								 var="registrador" 
-								 styleClass="tabela"
-								 emptyMessage="Nenhum registrador declarado">
-						<p:column headerText="Nome">
-							<p:outputLabel value="#{registrador.nome}"/>
-						</p:column>
-						<p:column headerText="Valor">
-							<p:outputLabel value="#{registrador.dado}"/>
-						</p:column>
-					</p:dataTable>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column colspan="2">
-					<p:outputLabel value="Código" styleClass="negrito"/>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:inputTextarea value="#{maquinaUniversalView.codigo}" cols="200" rows="20" id="codigo" />
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+		<ui:include src="dlgAjuda.xhtml" />
+		<ui:include src="dlgResultado.xhtml" />
+			
+		<h4>Código</h4>
+		<p:inputTextarea value="#{maquinaUniversalView.codigo}" id="codigo" />
 	</ui:define>
 	
 </ui:composition>

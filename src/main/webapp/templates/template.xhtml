@@ -7,17 +7,31 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pe="http://primefaces.org/ui/extensions">
       
-    <f:param name="titulo" value="#{(not empty titulo ? titulo.concat(' - ') : '').concat(' - Ariel Adonai Souza')}"/>
-    
     <h:head>
-    	<title>#{titulo}</title>
-    	<link rel="stylesheet" type="text/css" href="css/universalmachine.css" />
+    	<title>Máquina universal - Ariel Adonai Souza</title>
+    	
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection" />
+		<link rel="stylesheet" type="text/css" href="css/universalmachine.css" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </h:head>
     
 	<h:body>
-		<h:form id="form" style="font-size: 13px;">
-			<p:messages id="mensagens" showDetail="true" closable="true"/>
-			<ui:insert name="form"/>
-		</h:form>
+		<script type="text/javascript" src="js/materialize.min.js" />
+		<ui:insert name="body" />
+		
+		<main>
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m8 offset-m1 xl7 offset-xl1">
+						<h:form id="form">
+							<p:messages id="mensagens" showDetail="true" closable="true"/>
+							<ui:insert name="form"/>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</main>
 	</h:body>
 </html>

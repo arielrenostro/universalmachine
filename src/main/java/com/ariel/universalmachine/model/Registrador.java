@@ -11,13 +11,13 @@ public class Registrador implements Serializable {
 	private static final long serialVersionUID = 9191148962215513550L;
 
 	private String nome;
-	private int dado;
+	private long dado;
 
-	public int getDado() {
+	public long getDado() {
 		return dado;
 	}
 
-	public void setDado(int dado) {
+	public void setDado(long dado) {
 		this.dado = dado;
 	}
 

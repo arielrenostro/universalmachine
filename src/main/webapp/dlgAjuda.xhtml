@@ -1,0 +1,95 @@
+<p:dialog 	id="dlgAjuda"
+			widgetVar="dlgAjuda"
+			modal="true"
+			closeOnEscape="true"
+			responsive="true"
+			styleClass="dialog85"
+			resizable="false"
+			showHeader="false"
+			showEffect="fade"
+			hideEffect="fade"
+			
+			xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+  	        xmlns:ui="http://java.sun.com/jsf/facelets"
+		    xmlns:p="http://primefaces.org/ui"
+		    xmlns:pe="http://primefaces.org/ui/extensions">
+		    
+		    <nav style="height: 72px;" class="teal lighten-2">
+				<div class="nav-wrapper teal lighten-2">
+					<div class="col s12 card-panel teal lighten-2" style="margin-top: 0px; display: flex;">
+						<div>
+							<h4 style="margin-left: 20px;">Ajuda</h4>
+						</div>
+						<div style="width: 100%; text-align: right; padding-top: 20px; padding-right: 10px;">
+							<a href="#" onclick="PF('dlgAjuda').hide();" class="waves-effect waves-light btn botaoFecharDialog">
+								<i class="medium material-icons">close</i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</nav>
+		    <div class="container" style="width: 95%;">
+		    	<div class="row">
+		    		<h5>Instruções</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			SE: condicional, obrigatório informar o SENAO, somente comparação com 0;
+		    			<br />
+		    			ENTAO: indica o fim da instrução SE;
+		    			<br />
+		    			SENAO: indica o bloco de instruções caso o SE sejá falso;
+		    			<br />
+		    			ENQUANTO: condicional, utilizado em laços de repetição, somente comparação com 0;
+		    			<br />
+		    			ATE: condicional, utilizado em laços de repetição, somente comparação com 0;
+		    			<br />
+		    			FACA: indica o final das instruções ENQUANTO e ATE;
+		    		</blockquote>
+		    		
+		    		<h5>Atribuidor e comparador</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			:= (Atribuidor);
+		    			<br />
+		    			 = (Comparador).
+		    		</blockquote>
+		    		
+		    		<h5>Registradores</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			Deve iniciar com letra maiúscula;
+		    			<br />
+		    			Deve ser composto somente de letras maiúsculas, underline (_) e números.
+		    		</blockquote>
+		    		
+		    		<h5>Macros</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			Deve ser atribuida a um registrador (Exemplo: A := macro {...});
+		    			<br />
+		    			Deve iniciar com letra minúscula, a não ser que inicie com um registrador. (Exemplo: A := A * B {...} | A := multiplicacao(A,B) {...});
+		    			<br />
+		    			Deve conter um bloco de instruções (abre e fecha chaves).
+		    		</blockquote>
+		    		
+		    		<h5>Outras informações</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			O contexto dos registradores é global, portanto lembre-se sempre de limpa-los ao iniciar uma macro,
+		    		</blockquote>
+		    		
+		    		<h5>Exemplos de fonte</h5>
+		    		<blockquote style="white-space: pre; margin-top: 10px; margin-bottom: 30px;"><label>REGISTRADOR := 0 {</label>
+<label>	ATE REGISTRADOR = 0 FACA {</label>
+<label>		REGISTRADOR := REGISTRADOR - 1;</label>
+<label>	}</label>
+<label>}</label>
+<label></label>
+<label>A := 0;</label>
+<label>A := A + 1;</label>
+<label>SE A = 0 ENTAO {</label>
+<label>	B := 0;</label>
+<label>} SENAO {</label>
+<label>	C := 0;</label>
+<label>}</label>
+		    		</blockquote>
+		    	</div>
+	    	</div>
+</p:dialog>
