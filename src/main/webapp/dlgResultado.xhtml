@@ -48,7 +48,7 @@
 				    		</div>
 				    		<div class="col">
 					    		<h5>Instruções executadas</h5>
-					    		<p>#{maquinaUniversalView.contexto.qntInstrucoesExecutadas}</p>
+					    		<p>#{maquinaUniversalView.formatarNumero(maquinaUniversalView.contexto.qntInstrucoesExecutadas)}</p>
 				    		</div>
 				    	</div>
 				    	
@@ -66,7 +66,7 @@
 						    			<p:repeat var="registro" value="#{maquinaUniversalView.contexto.registradores.values().toArray()}">
 						    				<tr>
 						    					<td>#{registro.nome}</td>
-						    					<td style="text-align: right;">#{registro.dado}</td>
+						    					<td style="text-align: right;">#{maquinaUniversalView.formatarNumero(registro.dado)}</td>
 						    				</tr>
 						    			</p:repeat>
 				    				</tbody>

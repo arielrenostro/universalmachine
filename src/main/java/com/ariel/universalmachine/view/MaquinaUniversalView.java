@@ -1,6 +1,7 @@
 package com.ariel.universalmachine.view;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -20,6 +21,7 @@ public class MaquinaUniversalView implements Serializable {
 	private ContextoExecucao contexto;
 	private String codigo;
 	private String idExecucao;
+	private NumberFormat format;
 
 	public void atualizarEstado() {
 		contexto = controller.atualizarEstado(idExecucao);
@@ -56,6 +58,17 @@ public class MaquinaUniversalView implements Serializable {
 
 	public void setContexto(ContextoExecucao contexto) {
 		this.contexto = contexto;
+	}
+	
+	public String formatarNumero(long numero) {
+		return getFormat().format(numero);
+	}
+
+	private NumberFormat getFormat() {
+		if (null == format) {
+			format = NumberFormat.getInstance();
+		}
+		return format;
 	}
 
 }

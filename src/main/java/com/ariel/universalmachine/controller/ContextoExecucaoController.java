@@ -36,7 +36,7 @@ public class ContextoExecucaoController implements Serializable {
 	}
 
 	private boolean podeExecutar(ContextoExecucao contexto) {
-		return null == contexto || StatusContextoExecucao.NAO_INICIADO.equals(contexto.getStatus()) || StatusContextoExecucao.FINALIZADO.equals(contexto.getStatus());
+		return null == contexto || !(StatusContextoExecucao.RODANDO.equals(contexto.getStatus()) || StatusContextoExecucao.NAO_INICIADO.equals(contexto.getStatus()));
 	}
 
 }

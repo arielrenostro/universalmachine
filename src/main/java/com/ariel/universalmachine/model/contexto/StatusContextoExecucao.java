@@ -10,7 +10,8 @@ public enum StatusContextoExecucao  {
 
 	NAO_INICIADO("Não iniciado"), //
 	RODANDO("Rodando"), //
-	FINALIZADO("Finalizado");
+	FINALIZADO("Finalizado"), //
+	TEMPO_EXCEDIDO("Tempo excedido");
 	
 	private String code;
 	

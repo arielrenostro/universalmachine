@@ -6,7 +6,7 @@ function resetar() {
 function atualizar() {
 	var status = $('#statusExecucao')[0].innerText;
 	
-	if (status != "Finalizado") {
+	if (status != "Finalizado" || status != "Tempo excedido") {
 		atualizarEstado();
 	}
 }

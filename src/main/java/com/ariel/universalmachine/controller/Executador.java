@@ -3,10 +3,11 @@ package com.ariel.universalmachine.controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.log4j.Logger;
 
 import com.ariel.universalmachine.model.Registrador;
@@ -22,16 +23,11 @@ public class Executador {
 	private static final Logger LOGGER = Logger.getLogger(Executador.class);
 	private static final Map<String, ContextoExecucao> execucoes = new HashMap<>();
 	private static final RegistradorController registradorController = new RegistradorController();
-	private static ExecutorService executor;
+	private static ScheduledExecutorService executor;
 	
-	private static ExecutorService getExecutor() {
+	private synchronized static ScheduledExecutorService getExecutor() {
 		if (null == executor) {
-			executor = Executors.newFixedThreadPool(5);
-			try {
-				executor.awaitTermination(2, TimeUnit.MINUTES);
-			} catch (InterruptedException e) {
-				LOGGER.error(e.getMessage(), e);
-			}
+			executor = Executors.newScheduledThreadPool(5);
 		}
 		return executor;
 	}
@@ -45,28 +41,59 @@ public class Executador {
 	}
 
 	public static String executar(ContextoExecucao contexto) {
+		CancellableRunnable runnable = instanciarRunnable(contexto);
+		Runnable canceladorRunnable = instanciarCanceladorRunnable(runnable);
+		 
+		getExecutor().submit(runnable);
+		getExecutor().schedule(canceladorRunnable, 5, TimeUnit.MINUTES);
+		
 		String identificador = UUID.randomUUID().toString();
-		getExecutor().submit(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					executarPorContexto(contexto);
-				} finally {
-					contexto.setStatus(StatusContextoExecucao.FINALIZADO);
-				}
-			}
-		});
 		execucoes.put(identificador, contexto);
+		
 		return identificador;
 	}
 
-	private static void executarPorContexto(ContextoExecucao contexto) {
-		contexto.setStatus(StatusContextoExecucao.RODANDO);
-		executarInstrucoesContexto(contexto);
+	private static Runnable instanciarCanceladorRunnable(CancellableRunnable runnable) {
+		return new Runnable(){
+			@Override
+			public void run(){
+		    	runnable.cancel();
+			}      
+		 };
 	}
 
-	private static void executarInstrucoesContexto(ContextoExecucao contexto) {
+	private static CancellableRunnable instanciarRunnable(ContextoExecucao contexto) {
+		return new CancellableRunnable() {
+			
+			private MutableBoolean cancelar = new MutableBoolean(false);
+			
+			@Override
+			public void run() {
+				try {
+					executarPorContexto(contexto, cancelar);
+				} finally {
+					if (cancelar.getValue()) {
+						contexto.setStatus(StatusContextoExecucao.TEMPO_EXCEDIDO);
+						LOGGER.warn("Thread timeout");
+					} else {
+						contexto.setStatus(StatusContextoExecucao.FINALIZADO);
+					}
+				}				
+			}
+			
+			@Override
+			public void cancel() {
+				cancelar.setValue(true);
+			}
+		};
+	}
+
+	private static void executarPorContexto(ContextoExecucao contexto, MutableBoolean cancelar) {
+		contexto.setStatus(StatusContextoExecucao.RODANDO);
+		executarInstrucoesContexto(contexto, cancelar);
+	}
+
+	private static void executarInstrucoesContexto(ContextoExecucao contexto, MutableBoolean cancelar) {
 		Instrucao proximaInstrucao = Util.getPrimeiroElemento(contexto.getInstrucoesExecucao());
 		Map<String, Registrador> registradores = contexto.getRegistradores();
 
@@ -74,7 +101,7 @@ public class Executador {
 		Registrador registrador = null;
 		Instrucao instrucao = proximaInstrucao;
 
-		while (null != instrucao) {
+		while (null != instrucao && !cancelar.getValue()) {
 
 			nomeRegistrador = instrucao.getNomeRegistrador();
 			registrador = getRegistrador(nomeRegistrador, registradores);
