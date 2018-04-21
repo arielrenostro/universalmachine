@@ -7,9 +7,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.log4j.Logger;
 
+import com.ariel.universalmachine.dto.ContextoExecucaoDTO;
+import com.ariel.universalmachine.model.MutableBoolean;
 import com.ariel.universalmachine.model.Registrador;
 import com.ariel.universalmachine.model.contexto.ContextoExecucao;
 import com.ariel.universalmachine.model.contexto.StatusContextoExecucao;
@@ -18,10 +19,16 @@ import com.ariel.universalmachine.model.executavel.instrucao.OperadorRegistrador
 import com.ariel.universalmachine.model.executavel.instrucao.Teste;
 import com.ariel.universalmachine.util.Util;
 
-public class Executador {
+/**
+ * {@link ExecutadorContexto} define a classe de execucao dos codigos da maquina de norman. Recebe um contexto de execucao e inicia o loop de execucao até atingir o final ou timeout da thread.
+ * 
+ * @author ariel
+ *
+ */
+public class ExecutadorContexto {
 
-	private static final Logger LOGGER = Logger.getLogger(Executador.class);
-	private static final Map<String, ContextoExecucao> execucoes = new HashMap<>();
+	private static final Logger LOGGER = Logger.getLogger(ExecutadorContexto.class);
+	private static final Map<String, ContextoExecucao> execucoes = new HashMap<>(); // TODO implementar um timeout para remover o contexto da memoria. pode estourar a memoria.
 	private static final RegistradorController registradorController = new RegistradorController();
 	private static ScheduledExecutorService executor;
 	
@@ -40,7 +47,7 @@ public class Executador {
 		return execucoes;
 	}
 
-	public static String executar(ContextoExecucao contexto) {
+	public synchronized static String executar(ContextoExecucao contexto) {
 		CancellableRunnable runnable = instanciarRunnable(contexto);
 		Runnable canceladorRunnable = instanciarCanceladorRunnable(runnable);
 		 
@@ -72,7 +79,7 @@ public class Executador {
 				try {
 					executarPorContexto(contexto, cancelar);
 				} finally {
-					if (cancelar.getValue()) {
+					if (cancelar.isValue()) {
 						contexto.setStatus(StatusContextoExecucao.TEMPO_EXCEDIDO);
 						LOGGER.warn("Thread timeout");
 					} else {
@@ -101,7 +108,7 @@ public class Executador {
 		Registrador registrador = null;
 		Instrucao instrucao = proximaInstrucao;
 
-		while (null != instrucao && !cancelar.getValue()) {
+		while (null != instrucao && !cancelar.isValue()) {
 
 			nomeRegistrador = instrucao.getNomeRegistrador();
 			registrador = getRegistrador(nomeRegistrador, registradores);
@@ -147,5 +154,22 @@ public class Executador {
 			return registrador;
 		}
 		return null;
+	}
+
+	public synchronized static ContextoExecucaoDTO getExecucaoDTO(String chave) {
+		ContextoExecucao execucao = getExecucao(chave);
+		return instanciarContextoExecucaoDTO(execucao);
+	}
+
+	private static ContextoExecucaoDTO instanciarContextoExecucaoDTO(ContextoExecucao execucao) {
+		ContextoExecucaoDTO contextoExecucaoDTO = new ContextoExecucaoDTO();
+		
+		if (null != execucao) {
+			contextoExecucaoDTO.setQntInstrucoesExecutadas(execucao.getQntInstrucoesExecutadas());
+			contextoExecucaoDTO.setRegistradores(new HashMap<>(execucao.getRegistradores()));
+			contextoExecucaoDTO.setStatus(execucao.getStatus());
+		}
+		
+		return contextoExecucaoDTO;
 	}
 }

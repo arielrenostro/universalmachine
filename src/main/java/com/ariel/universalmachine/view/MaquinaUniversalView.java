@@ -1,7 +1,6 @@
 package com.ariel.universalmachine.view;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -9,7 +8,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.ariel.universalmachine.controller.MaquinaUniversalController;
-import com.ariel.universalmachine.model.contexto.ContextoExecucao;
+import com.ariel.universalmachine.dto.ContextoExecucaoDTO;
+import com.ariel.universalmachine.util.Util;
 
 @Named
 @SessionScoped
@@ -18,13 +18,12 @@ public class MaquinaUniversalView implements Serializable {
 	private static final long serialVersionUID = -8496448641512314362L;
 
 	private MaquinaUniversalController controller = new MaquinaUniversalController();
-	private ContextoExecucao contexto;
+	private ContextoExecucaoDTO contexto;
 	private String codigo;
 	private String idExecucao;
-	private NumberFormat format;
 
 	public void atualizarEstado() {
-		contexto = controller.atualizarEstado(idExecucao);
+		contexto = controller.getExecucaoDTO(idExecucao);
 	}
 
 	public void executar() {
@@ -52,23 +51,16 @@ public class MaquinaUniversalView implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public ContextoExecucao getContexto() {
+	public ContextoExecucaoDTO getContexto() {
 		return contexto;
 	}
 
-	public void setContexto(ContextoExecucao contexto) {
+	public void setContexto(ContextoExecucaoDTO contexto) {
 		this.contexto = contexto;
 	}
 	
 	public String formatarNumero(long numero) {
-		return getFormat().format(numero);
-	}
-
-	private NumberFormat getFormat() {
-		if (null == format) {
-			format = NumberFormat.getInstance();
-		}
-		return format;
+		return Util.formatNumber(numero);
 	}
 
 }

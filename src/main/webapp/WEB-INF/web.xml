@@ -19,13 +19,25 @@
 	    <url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+        <servlet-name>ResteasyAPI</servlet-name>
+        <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+        <init-param>
+        	<param-name>resteasy.servlet.mapping.prefix</param-name>
+        	<param-value>/api</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResteasyAPI</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+	
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+	</listener>
+	
 	 <welcome-file-list>
 	    <welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-	
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>bootstrap</param-value>
-	</context-param>
 	
 </web-app>

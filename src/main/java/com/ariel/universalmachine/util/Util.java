@@ -1,10 +1,13 @@
 package com.ariel.universalmachine.util;
 
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Util {
+	
+	private static NumberFormat numberFormat;
 
 	public static boolean valoresDistintos(Object obj1, Object obj2) {
 		if (obj1 == null && obj2 == null) {
@@ -40,6 +43,17 @@ public class Util {
 			return elementos.get(elementos.size() - 1);
 		}
 		return null;
+	}
+
+	public static String formatNumber(long numero) {
+		return getNumberFormat().format(numero);
+	}
+	
+	private static NumberFormat getNumberFormat() {
+		if (null == numberFormat) {
+			numberFormat = NumberFormat.getInstance();
+		}
+		return numberFormat;
 	}
 	
 }
