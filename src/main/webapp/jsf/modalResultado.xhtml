@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+	  	        xmlns:ui="http://java.sun.com/jsf/facelets">
+	  	        
+	<div id="modalResultado" class="modal bottom-sheet">
+		<div class="modal-content">
+		
+		    <h:panelGrid id="pnlResultado" style="border-style: hidden;">
+				<a href="#" onclick="atualizarEstado();" class="waves-effect waves-light btn botaoFecharDialog">
+					<i class="medium material-icons">refresh</i>
+				</a>
+				
+			    <div class="container" style="width: 100%;">
+			    	<div class="container" style="width: 95%; height: 670px;">
+				    	<div class="row">
+				    		<div class="col" style="padding-right: 50px;">
+					    		<h5>Status de execução</h5>
+					    		<p id="statusExecucao">#{maquinaUniversalView.contexto.status.code}</p>
+				    		</div>
+				    		<div class="col" style="padding-right: 50px;">
+					    		<h5>Instruções</h5>
+					    		<p id="statusExecucao">#{maquinaUniversalView.contexto.instrucoes.size()}</p>
+				    		</div>
+				    		<div class="col">
+					    		<h5>Instruções executadas</h5>
+					    		<p>#{maquinaUniversalView.formatarNumero(maquinaUniversalView.contexto.qntInstrucoesExecutadas)}</p>
+				    		</div>
+				    	</div>
+				    	
+				    	<div class="row">
+				    		<div class="col" style="width: 100%;">
+				    			<h5>Registradores</h5>
+				    			<table class="highlight" style="width: 100%;">
+				    				<thead>
+				    					<tr>
+				    						<th>Nome</th>
+				    						<th style="text-align: right;">Valor</th>
+				    					</tr>
+				    				</thead>
+				    				<tbody>
+						    			<ui:repeat var="registro" value="#{maquinaUniversalView.contexto.registradores.values().toArray()}">
+						    				<tr>
+						    					<td>#{registro.nome}</td>
+						    					<td style="text-align: right;">#{maquinaUniversalView.formatarNumero(registro.dado)}</td>
+						    				</tr>
+						    			</ui:repeat>
+				    				</tbody>
+				    			</table>
+				    		</div>
+				    	</div>
+			    	</div>
+			    </div>
+		    </h:panelGrid>
+	    </div>
+	</div>
+</ui:composition>

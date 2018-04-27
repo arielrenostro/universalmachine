@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.ariel.universalmachine.model.Registrador;
 
-public class RegistradorController {
+public class RegistradorController extends Controller {
 	
 	private Random random = new Random();
 

@@ -1,5 +1,8 @@
 package com.ariel.universalmachine.ws;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -22,21 +25,31 @@ public class ExecutadorContextoService extends Service {
 	@Path("/getContextoExecucao")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getContextoExecucao(@QueryParam("id") String id) {
-		ContextoExecucaoDTO contexto = ControllerFactory.getController(MaquinaUniversalController.class).getExecucaoDTO(id);
-		
-		return retornarJSON(contexto);
+		try {
+			ContextoExecucaoDTO contexto = ControllerFactory.getController(MaquinaUniversalController.class).getExecucaoDTO(id);
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("contexto", contexto);
+			return retornarSucesso(map);
+		} catch (Exception e) {
+			return retornarErro(e);
+		}
 	}
 	
 	@POST
 	@Path("/iniciarExecucao")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response iniciarExecucao(@PathParam("codigo") String codigo, @PathParam("id") String id) throws Exception {
-		MaquinaUniversalController controller = ControllerFactory.getController(MaquinaUniversalController.class);
-		
-		ContextoExecucaoDTO contextoExecucao = controller.getExecucaoDTO(id);
-		String idExecucao = controller.executar(contextoExecucao, id);
-		
-		return retornarJSON(idExecucao);
+	public Response iniciarExecucao(@PathParam("codigo") String codigo, @PathParam("id") String id) {
+		try {
+			MaquinaUniversalController controller = ControllerFactory.getController(MaquinaUniversalController.class);
+			String idExecucao = controller.executar(id, codigo);
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", idExecucao);
+			return retornarSucesso(map);
+		} catch (Exception e) {
+			return retornarErro(e);
+		}
 	}
 	
 }

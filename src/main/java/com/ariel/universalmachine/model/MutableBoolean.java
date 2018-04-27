@@ -13,7 +13,7 @@ public class MutableBoolean implements Serializable {
 		this.value = value;
 	}
 
-	public boolean isValue() {
+	public boolean getValue() {
 		return value;
 	}
 

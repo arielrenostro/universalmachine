@@ -2,6 +2,7 @@ package com.ariel.universalmachine.model.contexto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class ContextoExecucao implements Serializable {
 	private List<Instrucao> instrucoesExecucao = new ArrayList<>();
 	private Long qntInstrucoesExecutadas = 0L;
 	private StatusContextoExecucao status = StatusContextoExecucao.NAO_INICIADO;
+	private Date ultimaExecucao = new Date();
 
 	public StatusContextoExecucao getStatus() {
 		return status;
@@ -62,6 +64,14 @@ public class ContextoExecucao implements Serializable {
 
 	public void setInstrucoesExecucao(List<Instrucao> instrucoesExecucao) {
 		this.instrucoesExecucao = instrucoesExecucao;
+	}
+
+	public Date getUltimaExecucao() {
+		return ultimaExecucao;
+	}
+
+	public void setUltimaExecucao(Date ultimaExecucao) {
+		this.ultimaExecucao = ultimaExecucao;
 	}
 
 }

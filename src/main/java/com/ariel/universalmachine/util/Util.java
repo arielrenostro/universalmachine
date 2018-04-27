@@ -2,6 +2,7 @@ package com.ariel.universalmachine.util;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,6 +55,10 @@ public class Util {
 			numberFormat = NumberFormat.getInstance();
 		}
 		return numberFormat;
+	}
+
+	public static boolean isNotEmpty(Map<?, ?> map) {
+		return null != map && 0 < map.size();
 	}
 	
 }

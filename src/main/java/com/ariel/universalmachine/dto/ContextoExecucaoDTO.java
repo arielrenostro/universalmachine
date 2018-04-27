@@ -1,11 +1,14 @@
 package com.ariel.universalmachine.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ariel.universalmachine.model.Registrador;
 import com.ariel.universalmachine.model.contexto.StatusContextoExecucao;
+import com.ariel.universalmachine.model.executavel.instrucao.Instrucao;
 
 
 /**
@@ -19,7 +22,7 @@ public class ContextoExecucaoDTO implements Serializable {
 	private static final long serialVersionUID = 1L; 
 	
 	private Map<String, Registrador> registradores = new HashMap<>();
-	//private List<Instrucao> instrucoes = new ArrayList<>(); // Usar mais tarde para mostrar as isntrucoes que serao executadas
+	private List<Instrucao> instrucoes = new ArrayList<>(); // Usar mais tarde para mostrar as isntrucoes que serao executadas
 	private Long qntInstrucoesExecutadas = 0L;
 	private StatusContextoExecucao status = StatusContextoExecucao.NAO_INICIADO;
 	
@@ -45,6 +48,14 @@ public class ContextoExecucaoDTO implements Serializable {
 	
 	public void setStatus(StatusContextoExecucao status) {
 		this.status = status;
+	}
+
+	public List<Instrucao> getInstrucoes() {
+		return instrucoes;
+	}
+
+	public void setInstrucoes(List<Instrucao> instrucoes) {
+		this.instrucoes = instrucoes;
 	} 
 	
 }

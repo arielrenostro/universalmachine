@@ -1,3 +1,15 @@
+function atualizarEstado() {
+	var botao = document.getElementById('form:btAtualizar');
+	botao.type = "button";
+	botao.click();
+}
+
+function executar() {
+	var botao = document.getElementById('form:btExecutar');
+	botao.type = "button";
+	botao.click();
+}
+
 function resetar() {
 	var status = $('#statusExecucao')[0];
 	status.innerText = "Não iniciado";
