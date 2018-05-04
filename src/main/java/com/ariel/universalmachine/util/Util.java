@@ -60,5 +60,9 @@ public class Util {
 	public static boolean isNotEmpty(Map<?, ?> map) {
 		return null != map && 0 < map.size();
 	}
+
+	public static boolean isNotEmpty(String str) {
+		return null != str && !str.isEmpty();
+	}
 	
 }

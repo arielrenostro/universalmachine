@@ -1,4 +1,4 @@
-package com.ariel.universalmachine.controller;
+package com.ariel.universalmachine.model;
 
 public interface CancellableRunnable extends Runnable {
 

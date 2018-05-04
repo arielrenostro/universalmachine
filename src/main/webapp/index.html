@@ -1,33 +1,282 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>MÃ¡quina universal - Ariel Adonai Souza</title>
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="text/babel">
+    <head>
+    	<title>Máquina universal - Ariel Adonai Souza</title>
+    	
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<link type="text/css" rel="stylesheet" href="./css/materialize.min.css"  media="screen,projection" />
+		<link rel="stylesheet" type="text/css" href="./css/maquinaUniversal.css" />
 
-      ReactDOM.render(
-        <h1>Hello, world!</h1>,
-        document.getElementById('root')
-      );
+		<meta charset="ISO8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    
+	<body>
+		<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="./js/materialize.min.js"></script>
+		<script type="text/javascript" src="./js/maquinaUniversal.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+		    	$('.sidenav').sidenav();
+			    $('.modal').modal();
+		  	});
+		</script>
+		
+		<!-- MODAIS -->
+		<div id="modalAjuda" class="modal bottom-sheet">
+			<div class="modal-content">
+		    	<div class="row">
+		    		<h5>Instruções</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			<b>SE</b>: condicional, obrigatório informar o <b>SENAO</b>, somente comparação com 0;
+		    			<br />
+		    			<b>ENTAO</b>: indica o fim da instrução <b>SE</b>;
+		    			<br />
+		    			<b>SENAO</b>: indica o bloco de instruções caso o <b>SE</b> seja falso;
+		    			<br />
+		    			<b>ENQUANTO</b>: condicional, utilizado em laços de repetição, somente comparação com 0;
+		    			<br />
+		    			<b>ATE</b>: condicional, utilizado em laços de repetição, somente comparação com 0;
+		    			<br />
+		    			<b>FACA</b>: indica o final das instruções <b>ENQUANTO</b> e <b>ATE</b>;
+		    		</blockquote>
+		    		
+		    		<h5>Atribuidor e comparador</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			:= (Atribuidor);
+		    			<br />
+		    			 = (Comparador).
+		    		</blockquote>
+		    		
+		    		<h5>Registradores</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			Deve iniciar com letra maiúscula;
+		    			<br />
+		    			Deve ser composto somente de letras maiúsculas, underline (_) e números.
+		    		</blockquote>
+		    		
+		    		<h5>Macros</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			Deve ser atribuida a um registrador (Exemplo: A := macro {...});
+		    			<br />
+		    			Deve iniciar com letra minúscula, a não ser que inicie com um registrador. (Exemplo: A := A * B {...} | A := multiplicacao(A,B) {...});
+		    			<br />
+		    			Deve conter um bloco de instruções (abre e fecha chaves).
+		    		</blockquote>
+		    		
+		    		<h5>Outras informações</h5>
+		    		<blockquote style="margin-top: 10px; margin-bottom: 30px;">
+		    			O contexto dos registradores é global, portanto lembre-se sempre de limpa-los ao iniciar uma macro,
+		    		</blockquote>
+		    		
+		    		<h5>Exemplos de fonte</h5>
+		    		<blockquote style="white-space: pre; margin-top: 10px; margin-bottom: 30px; font-family: 'DroidSansMono';"><label>REGISTRADOR := 0 {</label>
+<label>  ATE REGISTRADOR = 0 FACA {</label>
+<label>    REGISTRADOR := REGISTRADOR - 1;</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := 0;</label>
+<label>A := A + 1;</label>
+<label>SE A = 0 ENTAO {</label>
+<label>  B := 0;</label>
+<label>} SENAO {</label>
+<label>  C := 0;</label>
+<label>}</label></blockquote>
+		    		
+		    		<h5>Fatorial</h5>
+		    		<blockquote style="white-space: pre; margin-top: 10px; margin-bottom: 30px; font-family: 'DroidSansMono';"><label>A := 0 {</label>
+<label>  ATE A = 0 FACA {</label>
+<label>    A := A - 1;</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := A + B {</label>
+<label>  UTILITARIO := 0;</label>
+<label></label>
+<label>  ATE B = 0 FACA {</label>
+<label>    UTILITARIO := UTILITARIO + 1;</label>
+<label>    A := A + 1;</label>
+<label>    B := B - 1;</label>
+<label>  }</label>
+<label></label>
+<label>  ATE UTILITARIO = 0 FACA {</label>
+<label>    B := B + 1;</label>
+<label>    UTILITARIO := UTILITARIO - 1;</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := B {</label>
+<label>  UTILITARIO3 := 0;</label>
+<label>  A := 0;</label>
+<label></label>
+<label>  ATE B = 0 FACA {</label>
+<label>    UTILITARIO3 := UTILITARIO3 + 1;</label>
+<label>    A := A + 1;</label>
+<label>    B := B - 1;</label>
+<label>  }</label>
+<label></label>
+<label>  ATE UTILITARIO3 = 0 FACA {</label>
+<label>    B := B + 1;</label>
+<label>    UTILITARIO3 := UTILITARIO3 - 1;</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := A * B {</label>
+<label>  SE A = 0 ENTAO {</label>
+<label>  } SENAO {</label>
+<label>    SE B = 0 ENTAO {</label>
+<label>      A := 0;</label>
+<label>    } SENAO {</label>
+<label>      UTILITARIO2 := A;</label>
+<label>      UTILITARIO4 := B;</label>
+<label>      B := B - 1;</label>
+<label></label>
+<label>      ATE B = 0 FACA {</label>
+<label>        A := A + UTILITARIO2;</label>
+<label>        B := B - 1;</label>
+<label>      }</label>
+<label></label>
+<label>      B := UTILITARIO4;</label>
+<label>    }</label>
+<label>  }</label>
+<label>}</label>
+<label></label>
+<label>A := A ! {</label>
+<label></label>
+<label>  SE A = 0 ENTAO {</label>
+<label>    A := A + 1;</label>
+<label>  } SENAO {</label>
+<label>    UTILITARIO5 := A;</label>
+<label>    UTILITARIO5 := UTILITARIO5 - 1;</label>
+<label>    ATE UTILITARIO5 = 0 FACA {</label>
+<label>      A := A * UTILITARIO5;</label>
+<label>      UTILITARIO5 := UTILITARIO5 - 1;</label>
+<label>    }</label>
+<label>  }</label>
+<label>}</label></blockquote>
+		    	</div>
+	    	</div>
+		</div>
+	
+		<div id="modalResultado" class="modal bottom-sheet">
+			<div class="modal-content">
+				<a href="#" onclick="atualizarEstado();" class="waves-effect waves-light btn botaoFecharDialog">
+					<i class="medium material-icons">refresh</i>
+				</a>
+				
+			    <div class="container" style="width: 100%;">
+			    	<div class="container" style="width: 95%; height: 670px;">
+				    	<div class="row">
+				    		<div class="col" style="padding-right: 50px;">
+					    		<h5>Status de execução</h5>
+					    		<p id="statusExecucao"></p>
+				    		</div>
+				    		<div class="col" style="padding-right: 50px;">
+					    		<h5>Instruções</h5>
+					    		<p id="qntInstrucoes"></p>
+				    		</div>
+				    		<div class="col">
+					    		<h5>Instruções executadas</h5>
+					    		<p id="qntInstrucoesExecutadas"></p>
+				    		</div>
+				    	</div>
+				    	
+				    	<div class="row">
+				    		<div class="col" style="width: 100%;">
+				    			<h5>Registradores</h5>
+				    			<table id="tabelaRegistradores" class="highlight" style="width: 100%;">
+				    				<thead>
+				    					<tr>
+				    						<th>Nome</th>
+				    						<th style="text-align: right;">Valor</th>
+				    					</tr>
+				    				</thead>
+				    				<tbody>
+				    					<tr>
+				    						<td>teste</td>
+				    						<td>tessste</td>
+				    					</tr>
+				    					<tr>
+				    						<td>teste</td>
+				    						<td>tessste</td>
+				    					</tr>
+				    				</tbody>
+				    			</table>
+				    		</div>
+				    	</div>
+			    	</div>
+			    </div>
+		    </div>
+		</div>
+		<!-- FIM MODAIS -->
+		
+		<header>
+			<nav class="teal lighten-2">
+				<div class="nav-wrapper">
+					<a href="#!" class="brand-logo" style="white-space: pre;">Máquina universal - Ariel Adonai Souza</a>
+					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+					<ul class="right hide-on-med-and-down">
+						<li>
+							<a href="#" class="waves-effect waves-teal botaoNav" onclick="resetar(); executar();" style="margin-top: -4px;">
+								<i class="small material-icons left">play_circle_outline</i>
+								Executar
+							</a>
+						</li>
+						<li>
+							<a href="#modalResultado" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+								<i class="small material-icons left">check</i>
+								Resultado
+							</a>
+						</li>
+						<li>
+							<a href="#modalAjuda" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+								<i class="small material-icons left">help_outline</i>
+								Ajuda
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
 
-    </script>
-    <!--
-      Note: this page is a great way to try React but it's not suitable for production.
-      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
-
-      To set up a production-ready React build environment, follow these instructions:
-      * https://reactjs.org/docs/add-react-to-a-new-app.html
-      * https://reactjs.org/docs/add-react-to-an-existing-app.html
-
-      You can also use React without JSX, in which case you can remove Babel:
-      * https://reactjs.org/docs/react-without-jsx.html
-      * https://reactjs.org/docs/cdn-links.html
-    -->
-  </body>
+			<ul class="sidenav" id="mobile-demo">
+				<li>
+					<a href="#" class="waves-effect waves-teal botaoNav" onclick="resetar(); executar();">
+						<i class="small material-icons">play_circle_outline</i>
+						Executar
+					</a>
+				</li>
+				<li>
+					<a href="#modalResultado" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+						<i class="small material-icons left">check</i>
+						Resultado
+					</a>
+				</li>
+				<li>
+					<a href="#modalAjuda" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+						<i class="small material-icons left">help_outline</i>
+						Ajuda
+					</a>
+				</li>
+			</ul>
+		</header>
+		
+		<main>
+			<div class="container">
+				<div id="errorDiv" class="row" style="display: none;">
+					<div class="col">
+						<h5 id="errorText"></h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h4>Código</h4>
+						
+						<textarea rows="30" cols="150" id="codigo" style="font-family: 'DroidSansMono';" onkeypress="return adicionarEspacosNovaLinha(event);"></textarea>
+					</div>
+				</div>
+			</div>
+		</main>
+	</body>
 </html>
+

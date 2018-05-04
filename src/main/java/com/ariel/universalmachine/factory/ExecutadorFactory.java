@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import com.ariel.universalmachine.controller.CancellableRunnable;
 import com.ariel.universalmachine.controller.ExecutadorController;
+import com.ariel.universalmachine.model.CancellableRunnable;
 import com.ariel.universalmachine.model.MutableBoolean;
 import com.ariel.universalmachine.model.contexto.ContextoExecucao;
 import com.ariel.universalmachine.model.contexto.StatusContextoExecucao;

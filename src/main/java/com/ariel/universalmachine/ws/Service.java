@@ -1,7 +1,10 @@
 package com.ariel.universalmachine.ws;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
@@ -46,7 +49,7 @@ public abstract class Service {
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", "ERRO");
 		map.put("erro", e.getMessage());
-		map.put("stackTrace", e.getStackTrace());
+		map.put("stackTrace", Arrays.stream(e.getStackTrace()).map(stack -> stack.toString()).collect(Collectors.joining("\n")));
 		
 		String json = getJson(map);
 		return getResponse(500, json);
@@ -60,6 +63,16 @@ public abstract class Service {
 		try {
 			return getObjectMapper().writeValueAsString(map);
 		} catch (JsonProcessingException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected Map<String, Object> lerJson(String json) {
+		try {
+			return getObjectMapper().readValue(json, HashMap.class);
+		} catch (IOException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 		return null;

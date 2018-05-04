@@ -99,3 +99,7 @@ textarea {
 blockquote>b {
 	color: #da6363;
 }
+
+#errorDiv {
+	color: #da6363;
+}

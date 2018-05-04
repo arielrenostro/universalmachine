@@ -11,6 +11,7 @@ import com.ariel.universalmachine.factory.ExecutadorFactory;
 import com.ariel.universalmachine.model.contexto.ContextoExecucao;
 import com.ariel.universalmachine.model.contexto.StatusContextoExecucao;
 import com.ariel.universalmachine.model.executavel.instrucao.Instrucao;
+import com.ariel.universalmachine.util.Util;
 
 public class ContextoExecucaoController extends Controller {
 
@@ -41,7 +42,7 @@ public class ContextoExecucaoController extends Controller {
 	}
 	
 	public ContextoExecucaoDTO getExecucaoDTO(String chave) {
-		if (null != chave) {
+		if (Util.isNotEmpty(chave)) {
 			ContextoExecucao execucao = ExecutadorFactory.getExecucao(chave);
 			return instanciarContextoExecucaoDTO(execucao);
 		}
@@ -49,15 +50,16 @@ public class ContextoExecucaoController extends Controller {
 	}
 
 	private ContextoExecucaoDTO instanciarContextoExecucaoDTO(ContextoExecucao execucao) {
-		ContextoExecucaoDTO contextoExecucaoDTO = new ContextoExecucaoDTO();
-		
 		if (null != execucao) {
+			ContextoExecucaoDTO contextoExecucaoDTO = new ContextoExecucaoDTO();
+			
 			contextoExecucaoDTO.setQntInstrucoesExecutadas(execucao.getQntInstrucoesExecutadas());
 			contextoExecucaoDTO.setRegistradores(new HashMap<>(execucao.getRegistradores()));
 			contextoExecucaoDTO.setStatus(execucao.getStatus());
 			contextoExecucaoDTO.setInstrucoes(new ArrayList<>(execucao.getInstrucoes()));
+			
+			return contextoExecucaoDTO;
 		}
-		
-		return contextoExecucaoDTO;
+		return null;
 	}
 }
