@@ -1,7 +1,6 @@
 package com.ariel.universalmachine.model.executavel.instrucao;
 
 /**
- *
  * @author Ariel Adonai Souza
  */
 public class Teste extends Instrucao {
@@ -48,6 +47,16 @@ public class Teste extends Instrucao {
 	@Override
 	public String toString() {
 		return getNomeRegistrador() + " [" + tipo + "]";
+	}
+
+	@Override
+	public TipoInstrucao getTipoInstrucao() {
+		return TipoInstrucao.TESTE;
+	}
+
+	@Override
+	public String getCodigo() {
+		return getTipo().name() + " " + getNomeRegistrador() + " = 0 FACA {";
 	}
 
 }

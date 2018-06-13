@@ -2,8 +2,8 @@ package com.ariel.universalmachine.model.executavel.instrucao;
 
 /**
  * Define a instrução SENAO
- * @author ariel
  *
+ * @author ariel
  */
 public class Senao extends Nada {
 
@@ -12,5 +12,15 @@ public class Senao extends Nada {
 	@Override
 	public String toString() {
 		return "SENAO";
+	}
+
+	@Override
+	public TipoInstrucao getTipoInstrucao() {
+		return TipoInstrucao.SENAO;
+	}
+
+	@Override
+	public String getCodigo() {
+		return "} SENAO {";
 	}
 }

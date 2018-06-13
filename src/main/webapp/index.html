@@ -15,12 +15,6 @@
 		<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="./js/materialize.min.js"></script>
 		<script type="text/javascript" src="./js/maquinaUniversal.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function(){
-		    	$('.sidenav').sidenav();
-			    $('.modal').modal();
-		  	});
-		</script>
 		
 		<!-- MODAIS -->
 		<div id="modalAjuda" class="modal bottom-sheet">
@@ -161,7 +155,7 @@
 	
 		<div id="modalResultado" class="modal bottom-sheet">
 			<div class="modal-content">
-				<a href="#" onclick="atualizarEstado();" class="waves-effect waves-light btn botaoFecharDialog">
+				<a href="#" onclick="MaquinaUniversal.atualizarContexto();" class="waves-effect waves-light btn botaoFecharDialog">
 					<i class="medium material-icons">refresh</i>
 				</a>
 				
@@ -193,18 +187,23 @@
 				    					</tr>
 				    				</thead>
 				    				<tbody>
-				    					<tr>
-				    						<td>teste</td>
-				    						<td>tessste</td>
-				    					</tr>
-				    					<tr>
-				    						<td>teste</td>
-				    						<td>tessste</td>
-				    					</tr>
 				    				</tbody>
 				    			</table>
 				    		</div>
 				    	</div>
+				    	<div class="row">
+				    		<div class="col" style="width: 100%;">
+				    			<table id="tabelaInstrucoes" class="highlight" style="width: 100%;">
+				    				<thead>
+				    					<tr>
+				    						<th>Instruções</th>
+			    						</tr>
+				    				</thead>
+				    				<tbody>
+				    				</tbody>
+				    			</table>
+				    		</div>
+			    		</div>
 			    	</div>
 			    </div>
 		    </div>
@@ -218,19 +217,19 @@
 					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<ul class="right hide-on-med-and-down">
 						<li>
-							<a href="#" class="waves-effect waves-teal botaoNav" onclick="resetar(); executar();" style="margin-top: -4px;">
+							<a href="#" class="waves-effect waves-teal botaoNav" onclick="MaquinaUniversal.executar();" style="margin-top: -4px;">
 								<i class="small material-icons left">play_circle_outline</i>
 								Executar
 							</a>
 						</li>
 						<li>
-							<a href="#modalResultado" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+							<a href="#modalResultado" class="waves-effect waves-teal botaoNav modal-trigger" style="margin-top: -4px;">
 								<i class="small material-icons left">check</i>
 								Resultado
 							</a>
 						</li>
 						<li>
-							<a href="#modalAjuda" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+							<a href="#modalAjuda" class="waves-effect waves-teal botaoNav modal-trigger" style="margin-top: -4px;">
 								<i class="small material-icons left">help_outline</i>
 								Ajuda
 							</a>
@@ -241,19 +240,19 @@
 
 			<ul class="sidenav" id="mobile-demo">
 				<li>
-					<a href="#" class="waves-effect waves-teal botaoNav" onclick="resetar(); executar();">
+					<a href="#" class="waves-effect waves-teal botaoNav" onclick="MaquinaUniversal.executar();">
 						<i class="small material-icons">play_circle_outline</i>
 						Executar
 					</a>
 				</li>
 				<li>
-					<a href="#modalResultado" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+					<a href="#modalResultado" class="waves-effect waves-teal botaoNav modal-trigger" style="margin-top: -4px;">
 						<i class="small material-icons left">check</i>
 						Resultado
 					</a>
 				</li>
 				<li>
-					<a href="#modalAjuda" class="waves-effect waves-teal botaoNav modal-trigger" onclick="atualizarEstado();" style="margin-top: -4px;">
+					<a href="#modalAjuda" class="waves-effect waves-teal botaoNav modal-trigger" style="margin-top: -4px;">
 						<i class="small material-icons left">help_outline</i>
 						Ajuda
 					</a>

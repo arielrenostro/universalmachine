@@ -1,6 +1,7 @@
 MaquinaUniversal = {
 	// Constantes
 	_TEMPO_MENSAGEM_ERRO: 10000,
+	_TEMPO_MENSAGEM_INFO: 5000,
 	
 	// Atributos
 	id: "",
@@ -30,6 +31,11 @@ MaquinaUniversal = {
 		if (null != resposta.id) {
 			MaquinaUniversal.id = resposta.id;
 			MaquinaUniversal.podeExecutarPool = true;
+			
+			MaquinaUniversal.atualizarContexto();
+			
+			MaquinaUniversal.mostrarInfo("ExecuÁ„o enviada! Acompanhe em \"Resultado\"");
+			setTimeout(MaquinaUniversal.ocultarMensagem, MaquinaUniversal._TEMPO_MENSAGEM_INFO);
 		}
 	},
 	
@@ -41,21 +47,28 @@ MaquinaUniversal = {
 		}
 		
 		MaquinaUniversal.mostrarErro(resposta.erro);
-		
-		setTimeout(MaquinaUniversal.ocultarErro, MaquinaUniversal._TEMPO_MENSAGEM_ERRO);
+		setTimeout(MaquinaUniversal.ocultarMensagem, MaquinaUniversal._TEMPO_MENSAGEM_ERRO);
 	},
 	
 	mostrarErro: function(erro) {
 		var divErro = $('#errorDiv'); // TODO ANIMAR
-		divErro.css('display', 'inline');
+		divErro.css({'display': 'inline', 'color': '#da6363'});
 		
 		var errorText = $('#errorText');
 		errorText.html(erro);
 	},
 	
-	ocultarErro: function () {
+	ocultarMensagem: function () {
 		var divErro = $('#errorDiv'); // TODO ANIMAR
 		divErro.css('display', 'none');
+	},
+	
+	mostrarInfo: function(info) {
+		var divErro = $('#errorDiv'); // TODO ANIMAR
+		divErro.css({'display': 'inline', 'color': 'rgb(81, 163, 224)'});
+		
+		var errorText = $('#errorText');
+		errorText.html(info);
 	},
 	
 	atualizarContexto: function() {
@@ -73,6 +86,14 @@ MaquinaUniversal = {
 	
 	getContextoExecucaoSucessoCallback: function(data, textStatus, jQxhr) {
 		var resposta = jQxhr.responseJSON;
+		if (null == resposta) {
+			MaquinaUniversal.podeExecutarPool = false;
+			
+			MaquinaUniversal.mostrarErro("Sem resposta do pool!");
+			setTimeout(MaquinaUniversal.ocultarMensagem, MaquinaUniversal._TEMPO_MENSAGEM_ERRO);
+			return;
+		}
+		
 		if (null != resposta.contexto) {
 			MaquinaUniversal.contexto = resposta.contexto;
 			
@@ -95,11 +116,11 @@ MaquinaUniversal = {
 			$("#qntInstrucoes").html(contexto.instrucoes.length);
 			$("#qntInstrucoesExecutadas").html(contexto.qntInstrucoesExecutadas);
 			
-			var status = "Status n√£o identificado ";
+			var status = "Status n„o identificado ";
 			if ("FINALIZADO" == contexto.status) {
 				status = "Finalizado";
 			} else if ("NAO_INICIADO" == contexto.status) {
-				status = "N√£o iniciado";
+				status = "N„o iniciado";
 			} else if ("RODANDO" == contexto.status) {
 				status = "Rodando";
 			} else if ("TEMPO_EXCEDIDO" == contexto.status) {
@@ -109,41 +130,55 @@ MaquinaUniversal = {
 			}
 			$("#statusExecucao").html(status);
 			
-			var tabela = $("#tabelaRegistradores").find("tbody");
-			tabela.children().remove();
+			MaquinaUniversal.limparTabelasContexto();
 			
+			var tabela = $("#tabelaRegistradores").find("tbody");
 			for (var nomeRegistrador in contexto.registradores) {
 				var registrador = contexto.registradores[nomeRegistrador];
 				
 				tabela.append("<tr><td>" + registrador.nome + "</td><td style=\"text-align: right;\">" + registrador.dado + "</td></tr>");
 			}
+			
+			var tabelaInstrucoes = $("#tabelaInstrucoes").find("tbody");
+			for (var nomeInstrucao in contexto.instrucoes) {
+				var instrucao = contexto.instrucoes[nomeInstrucao];
+				
+				tabelaInstrucoes.append("<tr><td>" + instrucao + "</td></tr>")
+			}
 		}
 	},
 	
 	definirEstadoPool: function() {
-		// TODO avaliar o status do contexto para validar se pode ou n√£o executar o pool.
-	}
-}
-
-function atualizarEstado() {
-	// TODO fazer a chamada do webservice e atualizar os campos
-}
-
-function atualizar() {
-	if (null != MaquinaUniversal.contexto) {
-		var status = MaquinaUniversal.contexto.status;
-		
-		if (status != "Finalizado" || status != "Tempo excedido") {
-			atualizarEstado();
+		if (null != MaquinaUniversal.contexto) {
+			var status = MaquinaUniversal.contexto.status;
+			
+			if (status != "Finalizado" && status != "Tempo excedido") {
+				MaquinaUniversal.podeExecutarPool = true;
+				return;
+			}
 		}
+		
+		MaquinaUniversal.podeExecutarPool = false;
+	},
+	
+	poolAtualizarCamposContexto: function () {
+		if (MaquinaUniversal.podeExecutarPool) {
+			MaquinaUniversal.atualizarContexto();
+		}
+	},
+	
+	limparTabelasContexto: function() {
+		var tabela = $("#tabelaRegistradores").find("tbody");
+		tabela.children().remove();
+		
+		tabela = $("#tabelaInstrucoes").find("tbody");
+		tabela.children().remove();
 	}
 }
-
-setInterval(atualizar, 3000);
 
 function adicionarEspacosNovaLinha(e) {
 	if (e.keyCode == 13) {
-		var codigo = $('#form\\:codigo');
+		var codigo = $('#codigo');
 		var posicaoAtual = codigo.prop("selectionStart");
 		var sub = codigo.val().substr(0, posicaoAtual);
 		
@@ -195,3 +230,11 @@ function isNovoBlocoInstrucao(texto) {
 	return sub[sub.length - 1] == "{";
 }
 
+$(document).ready(function(){
+	$('.sidenav').sidenav();
+    $('.modal').modal();
+    
+    MaquinaUniversal.limparTabelasContexto();
+    
+	setInterval(MaquinaUniversal.poolAtualizarCamposContexto, 3000);
+});

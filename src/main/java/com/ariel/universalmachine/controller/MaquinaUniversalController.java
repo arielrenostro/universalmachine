@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.ariel.universalmachine.dto.ContextoExecucaoDTO;
 import com.ariel.universalmachine.factory.ControllerFactory;
+import com.ariel.universalmachine.util.Util;
 
 public class MaquinaUniversalController extends Controller implements Serializable {
 
@@ -16,7 +17,7 @@ public class MaquinaUniversalController extends Controller implements Serializab
 	}
 
 	public ContextoExecucaoDTO getExecucaoDTO(String idExecucao) {
-		if (null != idExecucao) {
+		if (Util.isNotEmpty(idExecucao)) {
 			return ControllerFactory.getController(ContextoExecucaoController.class).getExecucaoDTO(idExecucao);
 		}
 		return null;

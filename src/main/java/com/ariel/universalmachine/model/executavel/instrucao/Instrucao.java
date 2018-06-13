@@ -3,7 +3,6 @@ package com.ariel.universalmachine.model.executavel.instrucao;
 import com.ariel.universalmachine.model.executavel.Executavel;
 
 /**
- *
  * @author Ariel Adonai Souza
  */
 public abstract class Instrucao implements Executavel {
@@ -29,4 +28,7 @@ public abstract class Instrucao implements Executavel {
 		this.proximaInstrucao = proximaInstrucao;
 	}
 
+	public abstract TipoInstrucao getTipoInstrucao();
+
+	public abstract String getCodigo();
 }

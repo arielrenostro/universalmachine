@@ -1,7 +1,6 @@
 package com.ariel.universalmachine.model.executavel.instrucao;
 
 /**
- *
  * @author Ariel Adonai Souza
  */
 public class OperadorRegistrador extends Instrucao {
@@ -23,4 +22,13 @@ public class OperadorRegistrador extends Instrucao {
 		return getNomeRegistrador() + " [" + tipo + "]";
 	}
 
+	@Override
+	public TipoInstrucao getTipoInstrucao() {
+		return TipoInstrucao.OPERADOR_REGISTRADOR;
+	}
+
+	@Override
+	public String getCodigo() {
+		return getNomeRegistrador() + " := " + getNomeRegistrador() + " " + getTipo().getCode() + " 1;";
+	}
 }
