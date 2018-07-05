@@ -136,7 +136,7 @@ public class Interpretador {
 
 			switch (tipoOperador) {
 				case ATRIBUICAO:
-					validarAtribuicao(instrucao);
+					processarAtribuicaoOuMacro(instrucao);
 					break;
 				case COMPARACAO:
 					processarComparacao(instrucao);
@@ -308,7 +308,7 @@ public class Interpretador {
 		return str.substring(1, str.length() - 1);
 	}
 
-	private void validarAtribuicao(String instrucao) throws Exception {
+	private void processarAtribuicaoOuMacro(String instrucao) throws Exception {
 		try {
 			processarAtribuicao(instrucao);
 		} catch (ErroSintaxeException e) {

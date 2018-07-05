@@ -89,6 +89,7 @@ span.ui-messages-info-summary {
 textarea {
 	width: 100%;
 	height: 100%;
+	margin-bottom: 20px;
 }
 
 @font-face {
@@ -102,4 +103,40 @@ blockquote>b {
 
 #errorDiv {
 	color: #da6363;
+}
+
+footer {
+	/*height: 30px;*/
+	position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4db6ac;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+	footer {
+		display: grid;
+	}
+}
+
+footer>label {
+	padding-left: 15px !important;
+	font-size: 16px !important;
+	color: #FFFFFF;
+}
+
+footer>label>a {
+	color: #FFFFFF;
+}
+
+.git {
+	color: #8c76d5;
+}
+
+.versao {
+	position: fixed;
+    bottom: 4px;
+    right: 10px;
 }
